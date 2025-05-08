@@ -1,0 +1,43 @@
+:root {
+  /* Colors -----------------> */
+    --background: #12201f;
+    --font-color: white;
+  /* < --- > */
+  }
+  
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    background-color: var(--background);
+    color: var(--font-color);
+    font-family: 'sf-regular', Arial, sans-serif;
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    text-wrap: balance;
+  }
+  
+  p, li, figcaption {
+    text-wrap: pretty;
+    max-width: 65ch;
+  }
+  
+  .italic {
+    font-style: italic;
+  }
+  
+  abbr {
+    border-bottom: none !important;
+    text-decoration: none !important;
+  }
+  
+  img {
+    border-style: none;
+  }
