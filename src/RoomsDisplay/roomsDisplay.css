@@ -1,0 +1,31 @@
+.rooms-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 2rem;
+}
+
+.rooms-display__create-container {
+  display: flex;
+  width: fit-content;
+}
+
+.rooms-display__create,
+.rooms-display__create-input {
+  height: 35px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  outline: inherit;
+  margin-top: 1rem;
+ }
+.rooms-display__create {
+  border-radius: 0 6px 6px 0;
+  cursor: pointer;
+}
+.rooms-display__create-input {
+  border-right: none;
+  border-radius: 6px 0 0 6px;
+}
