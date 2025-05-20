@@ -1,94 +1,108 @@
 import { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
-import type { CrudDataType } from '../types/CrudData.type';
+import { v4 as uuid } from 'uuid';
 import FormInput from './components/FormInput';
-import './roomsDisplay.css';
 import RoomSmall from './components/RoomSmall';
+import type { RoomDataType } from '../types/RoomData.type';
 import type { UserType } from '../types/User.type';
+import './roomsDisplay.css';
 
 const socket = io('localhost:3000');
 
-type FormInputType = {
-    createName: string;
-    unsetUserName: string;
+type FormStateType = {
+  createName: string;
+  unsetUserName: string;
+};
+
+type AppStateType = {
     user: UserType | null;
-}
+};
 
 const RoomsDisplay = () => {
-  const [crudData, setCrudData] = useState<CrudDataType[]>([]);
-  const [formInput, setFormInput] = useState<FormInputType>({
+  const [roomList, setRoomList] = useState<RoomDataType[]>([]);
+  const [formState, setFormState] = useState<FormStateType>({
     createName: '',
-    unsetUserName: '',
+    unsetUserName: ''
+  });
+  const [appState, setAppState] = useState<AppStateType>({
     user: null,
-  })
+  });
 
-  useEffect(()=>{
-    socket.on('crudData', (data)=>{
-      setCrudData(data);
-    })
-  },[socket]);
+  useEffect(() => {
+    const handleCrudData = (data: RoomDataType[]) => {
+      setRoomList(data);
+    };
+
+    socket.on('crudData', handleCrudData);
+
+    return () => {
+      socket.off('crudData', handleCrudData); // cleanup on unmount
+    };
+  }, [socket]);
+
+  const populateRoomList = () => {
+    if(!roomList.length) return <p>There are no active rooms.</p>;
+
+    return (
+      <div className='rooms-display__room-list'>
+        {roomList.map((room,i)=> (
+          <span key={i}>
+            <RoomSmall room={room}/>
+          </span>
+        ))}
+      </div>
+    );
+  };
 
   const handleChange = (e:  React.ChangeEvent<HTMLInputElement>, type: string): void => {
-    if(type === 'Room') setFormInput({...formInput, createName: e.target!.value});
-    else setFormInput({...formInput, unsetUserName: e.target!.value});
+    if(type === 'Room') setFormState({...formState, createName: e.target!.value});
+    else setFormState({...formState, unsetUserName: e.target!.value});
   };
 
   const handleCreate = (type: string):void => {
     if(type === 'Room'){
-      if(formInput.createName.length < 1) return;
+      if(formState.createName.length < 1) return;
+      if(roomList.some((room) => room.name.toLowerCase() === formState.createName.toLowerCase())) return;
+      if(roomList.some((room) => room.users.some((user: UserType) => user.id === appState.user!.id))) return;
   
-      let id:number= 0;
-  
-      if(!crudData.length) id = 1;
-      else id = crudData[crudData.length - 1].roomId + 1;
-
-      if(crudData.some((data) => data.name.toLowerCase() === formInput.createName.toLowerCase())) return;
-      if(crudData.some((data) => data.users.some((user: UserType) => user.name === formInput.user!.name))) return;
-  
-      socket.emit('create', { roomId: id, name: formInput.createName, userName: formInput.user!.name, users: [formInput.user] });
-      setFormInput({...formInput, createName: ''});
+      socket.emit('create', { roomId: uuid(), name: formState.createName, hostId: appState.user!.id, users: [appState.user] });
+      setFormState({...formState, createName: ''});
     }
     else if(type === 'User') {
-      if(formInput.unsetUserName.length < 1) return;
+      if(formState.unsetUserName.length < 1) return;
       
-      setFormInput({...formInput, unsetUserName: '', user: { id: 1, name: formInput.unsetUserName }});
+      setFormState({...formState, unsetUserName: ''});
+      setAppState({...appState, user: { id: uuid(), name: formState.unsetUserName }});
     }
   };
 
   return (
-    <div className='rooms-display'>
-      { crudData.length ?
-          <div className='rooms-display__room-list'>
-            {crudData.map((room)=> (
-              <RoomSmall room={room}/>
-            ))}
-          </div>
-          :
-          <p>There are no active rooms.</p>
-      }
+    <>
+      <div className='rooms-display'>
+        {populateRoomList()}
 
-      { !formInput.user &&
-        <FormInput
-          name={formInput.unsetUserName}
-          handleChange={handleChange}
-          handleSubmit={handleCreate}
-          type='User'
-        />
-      }
+        { !appState.user &&
+          <FormInput
+            name={formState.unsetUserName}
+            handleChange={handleChange}
+            handleSubmit={handleCreate}
+            type='User'
+          />
+        }
 
-      { formInput.user?.name &&
-        formInput.user.name.length > 1 &&
-        !crudData.some((data) => data.users.some((user: UserType) => user.name === formInput.user!.name)) ?
-        <FormInput
-          name={formInput.createName}
-          handleChange={handleChange}
-          handleSubmit={handleCreate}
-          type='Room'
-        />
-        :
-        <h2>You already have a room!</h2>
-      }
-    </div>
+        { appState.user && (
+            roomList.some((room) => room.hostId === appState.user!.id)
+              ? <h2>You already have a room!</h2>
+              : <FormInput
+                  name={formState.createName}
+                  handleChange={handleChange}
+                  handleSubmit={handleCreate}
+                  type='Room'
+                />
+          )
+        }
+      </div>
+    </>
   );
 };
 

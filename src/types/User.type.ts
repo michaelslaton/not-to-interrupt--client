@@ -1,5 +1,5 @@
 type UserType = {
-  id: number;
+  id: string;
   name: string;
 };
 

@@ -1,8 +1,8 @@
-import type { CrudDataType } from "../../types/CrudData.type";
+import type { RoomDataType } from "../../types/RoomData.type";
 import '../roomsDisplay.css';
 
 type RoomProps = {
-  room: CrudDataType;
+  room: RoomDataType;
 }
 
 
@@ -15,8 +15,10 @@ const RoomSmall = ({ room }: RoomProps ) => {
       </div>
 
       <div className='room-small__users'>
-        {room.users.map((user)=> (
-          <div className='room-small__user-small'>{user.name}</div>
+        {room.users.map((user,i)=> (
+          <div key={i} className='room-small__user-small'>
+            {user.name}
+          </div>
         ))}
       </div>
     </div>
