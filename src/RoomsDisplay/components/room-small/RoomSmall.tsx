@@ -1,5 +1,5 @@
-import type { RoomDataType } from "../../types/RoomData.type";
-import '../roomsDisplay.css';
+import type { RoomDataType } from "../../../types/RoomData.type";
+import './roomSmall.css';
 
 type RoomProps = {
   room: RoomDataType;

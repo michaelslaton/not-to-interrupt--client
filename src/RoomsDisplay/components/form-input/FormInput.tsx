@@ -1,4 +1,4 @@
-import '../roomsDisplay.css';
+import './formInput.css';
 
 type FormInputProps = {
   name: string;
@@ -10,16 +10,16 @@ type FormInputProps = {
 const FormInput = ({ name, handleChange, handleSubmit, type }: FormInputProps) => {
 
   return (
-    <div className='rooms-display__create-container'>
+    <div className='form-input__create-container'>
       <input
         type='text'
-        className='rooms-display__create-input'
+        className='form-input__create-input'
         placeholder={`${type} Name`}
         value={name}
         onChange={(e)=> handleChange(e, type)}
       />
       <button
-        className='rooms-display__create'
+        className='form-input__create'
         onClick={()=> handleSubmit(type)}
       >
         Create {type}

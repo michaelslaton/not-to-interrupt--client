@@ -1,0 +1,29 @@
+.room-small {
+  aspect-ratio: 1.5/1;
+  border: 2px solid white;
+  width: 15rem;
+  border-radius: 5px;
+  padding: .5rem;
+  background-color: salmon;
+}
+
+.room-small__title {
+  width: 100%;
+  text-align: center;
+  text-transform: uppercase;
+}
+.room-small__title > h2 {
+  margin: 0;
+}
+
+.room-small__users {
+  display: flex;
+  gap: .5rem;
+}
+
+.room-small__user-small {
+  background-color: blue;
+  width: min-content;
+  padding: .5rem 1.5rem;
+  border-radius: 10px;
+}
