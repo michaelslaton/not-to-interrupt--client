@@ -5,10 +5,13 @@ type RoomProps = {
 };
 
 const Room = ({ room }: RoomProps) => {
+   if (!room || !Array.isArray(room.users)) return <p>Loading room data...</p>;
 
   return (
     <>
-      {room.name}
+      {room.users.map((user)=> (
+        <>{user.name}</>
+      ))}
     </>
   );
 };

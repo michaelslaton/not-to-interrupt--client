@@ -6,6 +6,7 @@ import RoomSmall from './components/room-small/RoomSmall';
 import type { RoomDataType } from '../types/RoomData.type';
 import type { UserType } from '../types/User.type';
 import './roomsDisplay.css';
+import Room from './components/room/Room';
 // import Room from './components/room/Room';
 
 const socket = io('localhost:3000');
@@ -18,6 +19,7 @@ type FormStateType = {
 type AppStateType = {
     user: UserType | null;
     inRoom: string | null;
+    roomData: any;
 };
 
 const RoomsDisplay = () => {
@@ -29,19 +31,20 @@ const RoomsDisplay = () => {
   const [appState, setAppState] = useState<AppStateType>({
     user: null,
     inRoom: null,
+    roomData: null,
   });
 
-  useEffect(() => {
-    const handleRoomListData = (data: RoomDataType[]) => {
-      setRoomList(data);
-    };
+  // useEffect(() => {
+  //   const handleRoomListData = (data: RoomDataType[]) => {
+  //     setRoomList(data);
+  //   };
+  //   socket.emit('getRoomList');
+  //   socket.on('getRoomList', handleRoomListData);
 
-    socket.on('roomList', handleRoomListData);
-
-    return () => {
-      socket.off('roomList', handleRoomListData); // cleanup on unmount
-    };
-  }, [socket]);
+  //   return () => {
+  //     socket.off('getRoomList', handleRoomListData);
+  //   };
+  // }, [socket]);
 
   const populateRoomList = () => {
     if(!roomList.length) return <p>There are no active rooms.</p>;
@@ -62,36 +65,52 @@ const RoomsDisplay = () => {
     else setFormState({...formState, unsetUserName: e.target!.value});
   };
 
-  const handleCreate = (type: string):void => {
-    if(type === 'Room'){
-      if(formState.createName.length < 1) return;
-      if(roomList.some((room) => room.name.toLowerCase() === formState.createName.toLowerCase())) return;
-      if(roomList.some((room) => room.users.some((user: UserType) => user.id === appState.user!.id))) return;
-  
-      const newRoomId: string = uuid();
+  const handleCreateRoom = ():void => {
+    if(formState.createName.length < 1) return;
+    if(roomList.some((room) => room.name.toLowerCase() === formState.createName.toLowerCase())) return;
+    if(roomList.some((room) => room.users.some((user: UserType) => user.id === appState.user!.id))) return;
 
-      socket.emit('createRoom', {
-        roomId: newRoomId,
-        name: formState.createName,
-        hostId: appState.user!.id,
-        users: [appState.user],
-      });
-      setFormState({ ...formState, createName: '' });
-      setAppState({ ...appState, inRoom: newRoomId });
-    }
-    else if(type === 'User') {
-      if(formState.unsetUserName.length < 1) return;
-      
-      setFormState({...formState, unsetUserName: ''});
-      setAppState({...appState, user: { id: uuid(), name: formState.unsetUserName }});
+    const newRoomId: string = uuid();
+
+    socket.emit('createRoom', {
+      roomId: newRoomId,
+      name: formState.createName,
+      hostId: appState.user!.id,
+      users: [appState.user],
+    });
+
+    
+    setFormState({ ...formState, createName: '' });
+    setAppState({ ...appState, inRoom: newRoomId });
+
+    socket.on('roomData', (data)=> setAppState(prev => ({...prev, roomData: data })))
+  };
+
+  const handleCreateUser = ():void => {
+    if(formState.unsetUserName.length < 1) return;
+
+    setFormState({
+      ...formState,
+      unsetUserName: '',
+    });
+    setAppState({
+      ...appState,
+      user: { id: uuid(),
+      name: formState.unsetUserName,
+    }});
+
+    const handleRoomListData = (data: RoomDataType[]) => {
+      setRoomList(data);
     };
+    socket.emit('getRoomList');
+    socket.on('getRoomList', handleRoomListData);
   };
 
   return (
     <>
     { appState.inRoom
       ? <div className='rooms-display'>
-        
+        <Room room={appState.roomData}/>
       </div>
       : <div className='rooms-display'>
         {populateRoomList()}
@@ -100,7 +119,7 @@ const RoomsDisplay = () => {
           <FormInput
             name={formState.unsetUserName}
             handleChange={handleChange}
-            handleSubmit={handleCreate}
+            handleSubmit={handleCreateUser}
             type='User'
           />
         }
@@ -111,7 +130,7 @@ const RoomsDisplay = () => {
               : <FormInput
                   name={formState.createName}
                   handleChange={handleChange}
-                  handleSubmit={handleCreate}
+                  handleSubmit={handleCreateRoom}
                   type='Room'
                 />
           )
