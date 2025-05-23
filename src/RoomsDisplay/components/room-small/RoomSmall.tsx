@@ -3,13 +3,17 @@ import './roomSmall.css';
 
 type RoomProps = {
   room: RoomDataType;
+  onClick: Function;
 }
 
 
-const RoomSmall = ({ room }: RoomProps ) => {
+const RoomSmall = ({ room, onClick }: RoomProps ) => {
 
   return (
-    <div className='room-small'>
+    <div
+      onClick={()=> onClick(room.roomId)}
+      className='room-small'
+    >
       <div className='room-small__title'>
         <h2>{room.name}</h2>
       </div>

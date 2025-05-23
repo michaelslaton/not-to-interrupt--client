@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type JSX } from 'react';
 import { io } from 'socket.io-client';
 import { v4 as uuid } from 'uuid';
 import FormInput from './components/form-input/FormInput';
@@ -18,8 +18,7 @@ type FormStateType = {
 
 type AppStateType = {
     user: UserType | null;
-    inRoom: string | null;
-    roomData: any;
+    roomData: RoomDataType | null;
 };
 
 const RoomsDisplay = () => {
@@ -30,7 +29,6 @@ const RoomsDisplay = () => {
   });
   const [appState, setAppState] = useState<AppStateType>({
     user: null,
-    inRoom: null,
     roomData: null,
   });
 
@@ -46,14 +44,37 @@ const RoomsDisplay = () => {
   //   };
   // }, [socket]);
 
-  const populateRoomList = () => {
+  useEffect(() => {
+  const handleBeforeUnload = () => {
+    if (appState.user && appState.roomData) {
+      socket.emit('leaveRoom', {
+        roomId: appState.roomData.roomId,
+        userId: appState.user.id,
+      });
+    }
+  };
+
+  window.addEventListener('beforeunload', handleBeforeUnload);
+
+  return () => {
+    window.removeEventListener('beforeunload', handleBeforeUnload);
+  };
+}, [appState.user, appState.roomData]);
+
+  const enterRoom = (roomId: string): void => {
+    socket.emit('enterRoom', { roomId: roomId, user: appState.user });
+    setAppState(prev => ({...prev, roomData: roomList.find((room)=> room.roomId === roomId) || null}));
+    socket.on('roomData', (data)=> setAppState(prev => ({...prev, roomData: data })))
+  };
+
+  const populateRoomList = (): JSX.Element => {
     if(!roomList.length) return <p>There are no active rooms.</p>;
 
     return (
       <div className='rooms-display__room-list'>
         {roomList.map((room,i)=> (
           <span key={i}>
-            <RoomSmall room={room}/>
+            <RoomSmall room={room} onClick={enterRoom}/>
           </span>
         ))}
       </div>
@@ -70,20 +91,19 @@ const RoomsDisplay = () => {
     if(roomList.some((room) => room.name.toLowerCase() === formState.createName.toLowerCase())) return;
     if(roomList.some((room) => room.users.some((user: UserType) => user.id === appState.user!.id))) return;
 
-    const newRoomId: string = uuid();
-
-    socket.emit('createRoom', {
-      roomId: newRoomId,
+    const newRoom = {
+      roomId: uuid(),
       name: formState.createName,
       hostId: appState.user!.id,
-      users: [appState.user],
-    });
+      users: [appState.user!],
+    };
 
+    socket.emit('createRoom', newRoom);
     
     setFormState({ ...formState, createName: '' });
-    setAppState({ ...appState, inRoom: newRoomId });
+    setAppState({ ...appState, roomData: newRoom });
 
-    socket.on('roomData', (data)=> setAppState(prev => ({...prev, roomData: data })))
+    socket.on('roomData', (data)=> setAppState(prev => ({...prev, roomData: data })));
   };
 
   const handleCreateUser = ():void => {
@@ -108,7 +128,7 @@ const RoomsDisplay = () => {
 
   return (
     <>
-    { appState.inRoom
+    { appState.roomData
       ? <div className='rooms-display'>
         <Room room={appState.roomData}/>
       </div>
