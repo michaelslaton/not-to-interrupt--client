@@ -1,4 +1,4 @@
-import { useEffect, useState, type JSX } from 'react';
+import { createContext, useContext, useEffect, useState, type JSX } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { v4 as uuid } from 'uuid';
 import FormInput from './components/form-input/FormInput';
@@ -18,6 +18,18 @@ type FormStateType = {
 type AppStateType = {
   user: UserType | null;
   roomData: RoomDataType | null;
+};
+
+
+export const AppStateContext = createContext<{
+  appState: AppStateType;
+  setAppState: React.Dispatch<React.SetStateAction<AppStateType>>;
+} | undefined>(undefined);
+
+export const useAppStateContext = () => {
+  const context = useContext(AppStateContext);
+  if(!context) throw new Error('useAppStateContext must be used inside AppStateContext.Provider');
+  return context;
 };
 
 const RoomsDisplay = () => {
@@ -141,9 +153,13 @@ const RoomsDisplay = () => {
   return (
     <>
       {appState.roomData ? (
-        <div className='rooms-display'>
-          <Room room={appState.roomData} leaveRoom={leaveRoom} user={appState.user!} />
-        </div>
+        <>
+          <AppStateContext.Provider value={{appState, setAppState}}>
+            <div className='rooms-display'>
+              <Room room={appState.roomData} leaveRoom={leaveRoom} user={appState.user!} />
+            </div>
+          </AppStateContext.Provider>
+        </>
       ) : (
         <div className='rooms-display'>
           {populateRoomList()}

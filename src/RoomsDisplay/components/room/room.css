@@ -1,0 +1,20 @@
+.room-full__wrapper {
+  width: 100%;
+}
+
+.room-full {
+  width: 100%;
+  border: 2px solid black;
+  padding: 1rem;
+  background-color: salmon;
+  border-radius: 10px;
+}
+
+.room-full__room-title {
+  margin: 0;
+}
+
+.room-full__leave-button {
+  outline: 0;
+  border: 0;
+}
