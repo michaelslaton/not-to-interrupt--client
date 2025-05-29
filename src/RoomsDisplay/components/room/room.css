@@ -8,6 +8,8 @@
   padding: 1rem;
   background-color: salmon;
   border-radius: 10px;
+  display: flex;
+  gap: 1rem;
 }
 
 .room-full__room-title {

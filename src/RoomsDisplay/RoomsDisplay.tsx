@@ -61,6 +61,7 @@ const RoomsDisplay = () => {
         }
       }
     };
+
     socket.on('roomData', handleRoomData);
     socket.on('getRoomList', handleRoomList);
 
@@ -71,13 +72,22 @@ const RoomsDisplay = () => {
   }, [appState.user]);
 
   useEffect(() => {
+    if (appState.roomData && appState.user) {
+      socket.emit('controllerUpdate', {
+        user: appState.user,
+        roomId: appState.roomData?.roomId
+      });
+    };
+  }, [appState.user]);
+
+  useEffect(() => {
     const handleBeforeUnload = () => {
       if (appState.user && appState.roomData) {
         socket.emit('leaveRoom', {
           roomId: appState.roomData.roomId,
           userId: appState.user.id,
         });
-      }
+      };
     };
 
     window.addEventListener('beforeunload', handleBeforeUnload);
@@ -100,6 +110,10 @@ const RoomsDisplay = () => {
     const newUser: UserType = {
       id: uuid(),
       name: formState.unsetUserName.trim(),
+      controller: {
+        afk: false,
+        handUp: false,
+      },
     };
     setAppState(prev => ({
       ...prev,

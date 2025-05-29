@@ -1,7 +1,7 @@
 import type { RoomDataType } from "../../../types/RoomData.type";
 import type { UserType } from "../../../types/User.type";
-import './room.css';
 import UserController from "./user-controller/UserController";
+import './room.css';
 
 type RoomProps = {
   room: RoomDataType;
@@ -19,9 +19,12 @@ const Room = ({ room, leaveRoom, user }: RoomProps) => {
         </h2>
 
       <div className='room-full'>
-        {room.users.map((user)=> (
-          <UserController user={user}/>
-        ))}
+        <UserController user={user}/>
+        {
+          room.users.map((roomUser)=>{
+            if(roomUser.id !== user.id) return <UserController user={roomUser}/>
+          })
+        }
       </div>
 
       <button
