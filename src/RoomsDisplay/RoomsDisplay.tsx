@@ -8,7 +8,7 @@ import type { RoomDataType } from '../types/RoomData.type';
 import type { UserType } from '../types/User.type';
 import './roomsDisplay.css';
 
-const socket: Socket = io('localhost:3000');
+const socket: Socket = io(import.meta.env.VITE_SOCKET_URL || 'localhost:3000');
 
 type FormStateType = {
   createName: string;
@@ -19,7 +19,6 @@ type AppStateType = {
   user: UserType | null;
   roomData: RoomDataType | null;
 };
-
 
 export const AppStateContext = createContext<{
   appState: AppStateType;
@@ -113,6 +112,7 @@ const RoomsDisplay = () => {
       controller: {
         afk: false,
         handUp: false,
+        comment: '',
       },
     };
     setAppState(prev => ({
@@ -167,13 +167,11 @@ const RoomsDisplay = () => {
   return (
     <>
       {appState.roomData ? (
-        <>
           <AppStateContext.Provider value={{appState, setAppState}}>
             <div className='rooms-display'>
               <Room room={appState.roomData} leaveRoom={leaveRoom} user={appState.user!} />
             </div>
           </AppStateContext.Provider>
-        </>
       ) : (
         <div className='rooms-display'>
           {populateRoomList()}

@@ -21,8 +21,8 @@ const Room = ({ room, leaveRoom, user }: RoomProps) => {
       <div className='room-full'>
         <UserController user={user}/>
         {
-          room.users.map((roomUser)=>{
-            if(roomUser.id !== user.id) return <UserController user={roomUser}/>
+          room.users.map((roomUser,i)=>{
+            if(roomUser.id !== user.id) return <UserController key={i} user={roomUser}/>
           })
         }
       </div>

@@ -65,7 +65,7 @@
   display: none;
 }
 
-.controller__text-input {
+.controller__comment-input {
   width: 100;
   border-radius: 3px;
   outline: 0;
@@ -76,6 +76,6 @@
   text-wrap: wrap;
   resize: none;
 }
-.controller__text-input.mini {
+.controller__comment.mini {
   display: none;
 }
