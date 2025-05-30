@@ -24,7 +24,8 @@ const UserController = ({ user }: UserControllerProps) => {
       ...prev.user!,
       controller: {
         ...prev.user!.controller,
-        afk: !prev.user!.controller.afk
+        afk: !prev.user!.controller.afk,
+        handUp: false,
       }
     }
   }));
@@ -37,7 +38,8 @@ const UserController = ({ user }: UserControllerProps) => {
         ...prev.user!,
         controller: {
           ...prev.user!.controller,
-          handUp: !prev.user!.controller.handUp
+          handUp: !prev.user!.controller.handUp,
+          afk: false,
         }
       }
     }));
@@ -50,28 +52,35 @@ const UserController = ({ user }: UserControllerProps) => {
         {user.name}
       </div>
 
-      <div className='controller__window'>
-        <div className={`controller__small-window afk ${user.controller.afk && 'true'} ${miniCheck() && 'mini'}`}>
-          AFK
+      <div className='controller__controls-wrapper'>
+        <div className='controller__window'>
+          <button
+            className={`controller__small-window-button ${miniCheck() && 'mini'}`}
+            onClick={handleAfk}
+          >
+            AFK
+          </button>
+          <div className={`controller__small-window afk ${user.controller.afk && 'true'} ${miniCheck() && 'mini'}`}>
+            AFK
+          </div>
         </div>
-        <button
-          className={`controller__small-window-button ${miniCheck() && 'mini'}`}
-          onClick={handleAfk}
-        >
-          AFK
-        </button>
-      </div>
 
-      <div className='controller__window'>
-        <div className={`controller__small-window icon hand ${user.controller.handUp && 'up'} ${miniCheck() && 'mini'}`}>
-          <FontAwesomeIcon icon={faHandPaper as IconProp} />
+        <div className='controller__window'>
+          <button
+            className={`controller__small-window-button ${miniCheck() && 'mini'}`}
+            onClick={handleHandUp}
+          >
+            Hand Up
+          </button>
+          <div className={`controller__small-window icon hand ${user.controller.handUp && 'up'} ${miniCheck() && 'mini'}`}>
+            <FontAwesomeIcon icon={faHandPaper as IconProp} />
+          </div>
         </div>
-        <button
-          className={`controller__small-window-button ${miniCheck() && 'mini'}`}
-          onClick={handleHandUp}
-        >
-          Hand Up
-        </button>
+
+        <textarea className={`controller__text-input ${miniCheck() && 'mini'}`} rows={6}/>
+        { user.id !== appState.user?.id &&
+          <textarea className={`controller__text-input`} rows={6} readOnly/>
+        }
       </div>
 
     </div>

@@ -14,7 +14,7 @@
 
 .controller__title {
   background-color: rgb(31, 31, 31);
-  width: 80%;
+  width: 100%;
   border-radius: 3px;
   padding: .2rem 1rem;
   text-transform: uppercase;
@@ -24,12 +24,18 @@
 }
 .controller__title.mini {
   background-color: rgb(31, 31, 31);
-  width: 100%;
+}
+
+.controller__controls-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+  margin-top: .3rem;
 }
 
 .controller__window {
   display: flex;
-  gap: .3rem;
+  justify-content: space-between;
 }
 
 .controller__small-window {
@@ -56,5 +62,20 @@
 }
 
 .controller__small-window-button.mini {
+  display: none;
+}
+
+.controller__text-input {
+  width: 100;
+  border-radius: 3px;
+  outline: 0;
+  border: 2px solid black;
+  height: 5rem;
+  color: white;
+  background-color: rgb(31, 31, 31);
+  text-wrap: wrap;
+  resize: none;
+}
+.controller__text-input.mini {
   display: none;
 }
