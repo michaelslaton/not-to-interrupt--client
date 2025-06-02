@@ -1,3 +1,11 @@
+@font-face {
+  font-family: "techno";
+  src: url("./assets/font/Technology.otf");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   /* Colors -----------------> */
     --background: #12201f;

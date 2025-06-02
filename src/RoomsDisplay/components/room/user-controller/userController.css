@@ -1,8 +1,8 @@
 .controller {
   width: 15rem;
-  border: 3px solid rgb(29, 29, 29);
+  border: 2px solid rgb(29, 29, 29);
   border-radius: 10px;
-  background-color: grey;
+  background-color: rgb(114, 114, 114);
   padding: .5rem;
 }
 .controller.mini {
@@ -21,6 +21,9 @@
   color: yellow;
   border: 2px solid black;
   font-size: 1.2rem;
+  font-family: 'techno';
+  letter-spacing: 0.2rem;
+  font-size: 1.4rem;
 }
 .controller__title.mini {
   background-color: rgb(31, 31, 31);
@@ -46,9 +49,9 @@
   background-color: rgb(31, 31, 31);
   display: grid;
   place-items: center;
-}
-.icon {
-  font-size: 1.4em;
+  font-family: 'techno';
+  letter-spacing: 0.2rem;
+  font-size: 1.4rem;
 }
 .controller__small-window.mini {
   width: 100%;
