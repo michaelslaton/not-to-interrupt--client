@@ -1,32 +1,32 @@
 .controller {
   width: 15rem;
-  border: 2px solid rgb(29, 29, 29);
+  border: 2px solid #1d1d1d;
   border-radius: 10px;
-  background-color: rgb(114, 114, 114);
+  background-color: #727272;
   padding: .5rem;
 }
 .controller.mini {
-  width: 10rem;
+  width: 15rem;
   padding: .5rem;
   text-align: center;
   border-radius: 10px;
 }
 
 .controller__title {
-  background-color: rgb(31, 31, 31);
+  background-color: #1f1f1f;
   width: 100%;
   border-radius: 3px;
   padding: .2rem 1rem;
   text-transform: uppercase;
   color: yellow;
-  border: 2px solid black;
+  border: 2px solid #000000;
   font-size: 1.2rem;
   font-family: 'techno';
   letter-spacing: 0.2rem;
   font-size: 1.4rem;
 }
 .controller__title.mini {
-  background-color: rgb(31, 31, 31);
+  background-color: #1f1f1f;
 }
 
 .controller__controls-wrapper {
@@ -46,7 +46,7 @@
   padding: .3rem .5rem;
   border: 2px solid black;
   border-radius: 3px;
-  background-color: rgb(31, 31, 31);
+  background-color: #1f1f1f;
   display: grid;
   place-items: center;
   font-family: 'techno';
@@ -69,16 +69,28 @@
 }
 
 .controller__comment-input {
-  width: 100;
+  width: 100%;
   border-radius: 3px;
   outline: 0;
-  border: 2px solid black;
+  border: 2px solid #000000;
   height: 5rem;
-  color: white;
-  background-color: rgb(31, 31, 31);
+  color: #ffffff;
+  background-color: #1f1f1f;
   text-wrap: wrap;
   resize: none;
+  overflow: hidden;
+  display: block;
+}
+.controller__comment-input.match {
+  border-color: #00d800;
+}
+.controller__comment-input.un-match {
+  border-color: #ff0000;
 }
 .controller__comment.mini {
   display: none;
+}
+
+.controller__comment-submit {
+  margin-top: .3rem;
 }

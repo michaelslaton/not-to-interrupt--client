@@ -14,12 +14,12 @@ const UserController = ({ user }: UserControllerProps) => {
  const { appState, setAppState } = useAppStateContext();
  const [comment, setComment] = useState<string>('');
 
- const miniCheck = ():boolean => {
+ const miniCheck = (): boolean => {
   if (user.id === appState.user?.id) return false;
   else return true
  };
 
- const handleAfk = ():void => {
+ const handleAfk = (): void => {
   setAppState((prev)=> ({
     ...prev,
     user: {
@@ -33,7 +33,7 @@ const UserController = ({ user }: UserControllerProps) => {
   }));
  };
 
-  const handleHandUp = ():void => {
+  const handleHandUp = (): void => {
     setAppState((prev)=> ({
       ...prev,
       user: {
@@ -47,19 +47,19 @@ const UserController = ({ user }: UserControllerProps) => {
     }));
   };
 
-  const formatUrls = (text: string) => {
+  const formatUrls = (text: string): (JSX.Element | string)[] => {
     const urlRegex = /((https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-z]{2,}(\/[^\s]*)?)/g;
     const parts: (string | JSX.Element)[] = [];
-    let lastIndex = 0;
-    const matches = [...text.matchAll(urlRegex)];
+    let lastIndex: number = 0;
+    const matches: RegExpExecArray[] = [...text.matchAll(urlRegex)];
     matches.forEach((match, i) => {
-      const url = match[0];
-      const index = match.index ?? 0;
+      const url: string = match[0];
+      const index: number = match.index ?? 0;
       if (lastIndex < index) {
         parts.push(text.substring(lastIndex, index));
       };
-      const hasProtocol = url.startsWith('http://') || url.startsWith('https://');
-      const href = hasProtocol ? url : `http://${url}`;
+      const hasProtocol: boolean = url.startsWith('http://') || url.startsWith('https://');
+      const href: string = hasProtocol ? url : `http://${url}`;
       parts.push(
         <a key={i} href={href} target='_blank' rel='noopener noreferrer'>
           {url}
@@ -74,7 +74,7 @@ const UserController = ({ user }: UserControllerProps) => {
   };
 
 
-  const submitComment = ():void => {
+  const submitComment = (): void => {
     if(comment === user.controller.comment) return;
     setAppState((prev)=> ({
       ...prev,
@@ -86,6 +86,13 @@ const UserController = ({ user }: UserControllerProps) => {
         }
       }
     }));
+  };
+
+  const commentColorCheck = (): string => {
+    const userComment: string = user.controller.comment;
+    if(userComment === '' && comment === '') return ''
+    else if (comment === user.controller.comment) return 'match'
+    else return 'un-match';
   };
 
   return (
@@ -122,12 +129,14 @@ const UserController = ({ user }: UserControllerProps) => {
 
         <div className={`controller__comment ${miniCheck() && 'mini'}`}>
           <textarea
-            className={`controller__comment-input`}
+            className={`controller__comment-input ${commentColorCheck()}`}
             onChange={(e)=> setComment(e.target.value)}
             defaultValue={user.controller.comment}
             rows={6}
           />
-          <button onClick={submitComment}>
+          <button
+            className='controller__comment-submit'
+            onClick={submitComment}>
             Submit
           </button>
         </div>
