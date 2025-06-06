@@ -104,7 +104,8 @@ const RoomsDisplay = () => {
     socket.emit('getRoomList');
   };
 
-  const handleCreateUser = (): void => {
+  const handleCreateUser = (e: Event): void => {
+    e.preventDefault();
     if (formState.unsetUserName.trim().length < 1) return;
     const newUser: UserType = {
       id: uuid(),
@@ -123,7 +124,8 @@ const RoomsDisplay = () => {
     socket.emit('getRoomList');
   };
 
-  const handleCreateRoom = (): void => {
+  const handleCreateRoom = (e: Event): void => {
+    e.preventDefault();
     const name = formState.createName.trim();
     if (!name.length) return;
     if (!appState.user) return;

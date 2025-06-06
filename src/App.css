@@ -9,3 +9,18 @@
   text-transform: uppercase;
   font-size: 2.5rem;
 }
+
+.button {
+  padding: .3rem 1rem;
+  background-color: #727272;
+  border-radius: 4px;
+  margin-top: .5rem;
+  color: white;
+  cursor: pointer;
+  outline: none;
+  border: 2px solid transparent;
+  transition: border 85ms ease-in-out;
+}
+.button:hover {
+  border-color: white;
+}

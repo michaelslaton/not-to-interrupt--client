@@ -28,7 +28,7 @@ const Room = ({ room, leaveRoom, user }: RoomProps) => {
       </div>
 
       <button
-        className='room-full__leave-button'
+        className='button'
         onClick={()=> leaveRoom(room.roomId, user.id)}
       >
         Leave Room

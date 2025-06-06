@@ -5,6 +5,7 @@ import { useAppStateContext } from '../../../RoomsDisplay';
 import './userController.css';
 import type { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { useState, type JSX } from 'react';
+import Toggle from '../../toggle/Toggle';
 
 type UserControllerProps = {
   user: UserType;
@@ -19,28 +20,28 @@ const UserController = ({ user }: UserControllerProps) => {
   else return true
  };
 
- const handleAfk = (): void => {
+ const handleAfk = (afk: boolean): void => {
   setAppState((prev)=> ({
     ...prev,
     user: {
       ...prev.user!,
       controller: {
         ...prev.user!.controller,
-        afk: !prev.user!.controller.afk,
+        afk: afk,
         handUp: false,
       }
     }
   }));
  };
 
-  const handleHandUp = (): void => {
+  const handleHandUp = (handUp: boolean): void => {
     setAppState((prev)=> ({
       ...prev,
       user: {
         ...prev.user!,
         controller: {
           ...prev.user!.controller,
-          handUp: !prev.user!.controller.handUp,
+          handUp: handUp,
           afk: false,
         }
       }
@@ -104,24 +105,14 @@ const UserController = ({ user }: UserControllerProps) => {
 
       <div className='controller__controls-wrapper'>
         <div className='controller__window'>
-          <button
-            className={`controller__small-window-button ${miniCheck() && 'mini'}`}
-            onClick={handleAfk}
-          >
-            AFK
-          </button>
+          { user.id === appState.user?.id && <Toggle action={handleAfk} data={user.controller.afk}/> }
           <div className={`controller__small-window afk ${user.controller.afk && 'true'} ${miniCheck() && 'mini'}`}>
             AFK
           </div>
         </div>
 
         <div className='controller__window'>
-          <button
-            className={`controller__small-window-button ${miniCheck() && 'mini'}`}
-            onClick={handleHandUp}
-          >
-            Hand Up
-          </button>
+          { user.id === appState.user?.id && <Toggle action={handleHandUp} data={user.controller.handUp}/> }
           <div className={`controller__small-window icon hand ${user.controller.handUp && 'up'} ${miniCheck() && 'mini'}`}>
             <FontAwesomeIcon icon={faHandPaper as IconProp} />
           </div>
