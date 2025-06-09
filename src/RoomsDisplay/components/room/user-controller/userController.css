@@ -37,8 +37,12 @@
 }
 
 .controller__window {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  place-items: center;
+}
+.controller__window.mini {
   display: flex;
-  justify-content: space-between;
 }
 
 .controller__small-window {
@@ -52,6 +56,7 @@
   font-family: 'techno';
   letter-spacing: 0.2rem;
   font-size: 1.4rem;
+  width: 100%;
 }
 .controller__small-window.mini {
   width: 100%;
@@ -93,4 +98,12 @@
 
 .controller__comment-submit {
   margin-top: .3rem;
+  outline: none;
+  border: 0;
+  background-color: #9c9c9c;
+  color: white;
+  padding: .1rem 1rem;
+  border-radius: 4px;
+  font-size: 1.05rem;
+  text-transform: uppercase;
 }
