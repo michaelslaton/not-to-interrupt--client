@@ -14,9 +14,9 @@ const Room = ({ room, leaveRoom, user }: RoomProps) => {
 
   return (
     <div className='room-full__wrapper'>
-        <h2 className='room-full__room-title'>
-          {room.name}
-        </h2>
+      <h2 className='room-full__room-title'>
+        {room.name}
+      </h2>
 
       <div className='room-full'>
         <UserController user={user}/>
@@ -27,12 +27,14 @@ const Room = ({ room, leaveRoom, user }: RoomProps) => {
         }
       </div>
 
-      <button
-        className='button'
-        onClick={()=> leaveRoom(room.roomId, user.id)}
-      >
-        Leave Room
-      </button>
+      <div className="leave-room-wrapper">
+        <button
+          className='button'
+          onClick={()=> leaveRoom(room.roomId, user.id)}
+        >
+          Leave Room
+        </button>
+      </div>
     </div>
   );
 };

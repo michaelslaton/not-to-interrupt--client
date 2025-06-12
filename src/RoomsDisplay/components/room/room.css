@@ -1,16 +1,20 @@
 .room-full__wrapper {
+  position: relative;
   width: 100%;
+  padding: 0 1rem .5rem;
+  background-color: var(--room-bg);
+  border-radius: 10px;
 }
 
 .room-full {
-  width: 100%;
-  padding: 1rem;
-  background-color: var(--room-bg);
-  border-radius: 10px;
   display: flex;
   gap: .5rem;
 }
 
 .room-full__room-title {
   margin: 0;
+}
+
+.leave-room-wrapper {
+  text-align: right;
 }
