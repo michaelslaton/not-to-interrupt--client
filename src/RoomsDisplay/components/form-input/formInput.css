@@ -7,13 +7,17 @@
 .form-input__create-input {
   height: 35px;
   font-size: 1rem;
-  border: 1px solid #ccc;
+  border: 1px solid var(--button-border);
   outline: inherit;
   margin-top: 1rem;
  }
 .form-input__create {
   border-radius: 0 6px 6px 0;
   cursor: pointer;
+  background-color: var(--button-bg);
+  border-left: 0;
+  border-color: var(--button-border);
+  color: var(--button-font);
 }
 .form-input__create-input {
   border-right: none;

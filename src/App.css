@@ -8,19 +8,20 @@
   margin: 0;
   text-transform: uppercase;
   font-size: 2.5rem;
+  color: var(--app-title);
 }
 
 .button {
   padding: .3rem 1rem;
-  background-color: #727272;
+  background-color: var(--button-bg);
   border-radius: 4px;
   margin-top: .5rem;
-  color: white;
+  color: var(--button-font);
   cursor: pointer;
   outline: none;
   border: 2px solid transparent;
   transition: border 85ms ease-in-out;
 }
 .button:hover {
-  border-color: white;
+  border-color: var(--button-border-hover);
 }

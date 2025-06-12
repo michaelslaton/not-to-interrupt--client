@@ -3,7 +3,7 @@
   width: 15rem;
   border-radius: 5px;
   padding: .5rem;
-  background-color: #563232;
+  background-color: var(--room-bg);
   cursor: pointer;
 }
 
@@ -11,9 +11,10 @@
   width: 100%;
   text-align: center;
   text-transform: uppercase;
-  background-color: #422727;
+  background-color: var(--room-s-title-bg);
   border-radius: 4px;
-  margin-bottom: .5rem
+  margin-bottom: .5rem;
+  color: var(--room-s-title-font);
 }
 .room-small__title > h2 {
   margin: 0;
@@ -25,8 +26,9 @@
 }
 
 .room-small__user-small {
-  background-color: rgb(114, 114, 114);
+  background-color: var(--room-s-user-bg);
   width: min-content;
   padding: .5rem 1.5rem;
   border-radius: 3px;
+  color: var(--room-s-user-font);
 }

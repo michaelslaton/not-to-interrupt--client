@@ -5,7 +5,7 @@
 .room-full {
   width: 100%;
   padding: 1rem;
-  background-color: #563232;
+  background-color: var(--room-bg);
   border-radius: 10px;
   display: flex;
   gap: .5rem;
