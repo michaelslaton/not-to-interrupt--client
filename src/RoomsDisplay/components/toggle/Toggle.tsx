@@ -11,8 +11,6 @@ const Toggle = ({ action, data }: ToggleProps) => {
     action(isChecked);
   };
 
-  console.log(data)
-
   return (
     <div className='toggle__container'>
       <label className='toggle__switch'>

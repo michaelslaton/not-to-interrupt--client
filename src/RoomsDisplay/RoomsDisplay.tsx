@@ -93,7 +93,7 @@ const RoomsDisplay = () => {
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, [appState.user, appState.roomData]);
 
-  // ----- SOCKET COMMANDS -----
+  // ----- SOCKET COMMANDS ----- >
   const enterRoom = (roomId: string): void => {
     socket.emit('enterRoom', { roomId, user: appState.user });
   };
@@ -136,7 +136,7 @@ const RoomsDisplay = () => {
       roomId: uuid(),
       name: name,
       hostId: appState.user.id,
-      users: [appState.user],
+      users: [{...appState.user, socketId: socket.id!}],
     };
 
     socket.emit('createRoom', newRoom);

@@ -27,16 +27,17 @@
     --toggle-bg: #1C2321;
     --toggle-switch: #1A759F;
     --toggle-on-bg: #1C2321;
-    --toggle-on-switch: #D9ED92;
+    --toggle-on-switch: #c8ff00;
 
     --controller-bg: var(--room-s-user-bg);
 
     --controller-digi-bg: #1C2321;
     --controller-digi-border: #000000;
     --controller-digi-off: #000000;
-    --controller-digi-font: #D9ED92;
+    --controller-digi-font: #c8ff00;
     --controller-digi-afk: #ff0000;
-    --controller-digi-hand: var(--controller-digi-font);
+    --controller-digi-hand: #c8ff00;
+
     --controller-comment-font: #ffffff;
     --controller-comment-green: transparent;
     --controller-comment-red: #ff0000;
