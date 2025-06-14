@@ -63,6 +63,7 @@ const RoomsDisplay = () => {
 
     socket.on('roomData', handleRoomData);
     socket.on('getRoomList', handleRoomList);
+    socket.on('pingCheck', ()=> socket.emit('pongCheck'));
 
     return () => {
       socket.off('roomData', handleRoomData);
