@@ -10,6 +10,8 @@ import './roomsDisplay.css';
 
 const socket: Socket = io(import.meta.env.VITE_SOCKET_URL || 'localhost:3000');
 
+(window as any).socket = socket;
+
 type FormStateType = {
   createName: string;
   unsetUserName: string;
@@ -96,7 +98,7 @@ const RoomsDisplay = () => {
 
   // ----- SOCKET COMMANDS ----- >
   const enterRoom = (roomId: string): void => {
-    socket.emit('enterRoom', { roomId, user: appState.user });
+    socket.emit('enterRoom', { roomId, user: {...appState.user, socketId: socket.id} });
   };
 
   const leaveRoom = (roomId: string, userId: string): void => {
