@@ -32,6 +32,11 @@
   height: 20rem;
   overflow: auto;
   text-wrap: wrap;
+
+    display: flex;
+  flex-direction: column-reverse; /* The trick */
+  overflow-y: auto;
+  max-height: 300px; /* or whatever you want */
 }
 .room-full__chat-input-wrapper {
   display: flex;
@@ -93,4 +98,12 @@
   text-align: right;
   display: block;
   flex-basis: 100%;
+}
+
+.chat-anchor {
+  overflow-anchor: auto;
+  height: 1px;
+}
+.chat-no-anchor {
+  overflow-anchor: none;
 }

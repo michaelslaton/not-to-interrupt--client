@@ -50,11 +50,9 @@ const Room = ({ room, leaveRoom, user, socket }: RoomProps) => {
   };
 
   const populateChat = () => {
-    const chatData = room.chat.map((entry)=>(
-      <div className='room-full__chat-entry-wrapper'>
-        <div className='room-full__chat-entry-user'>
-          {`${entry.user}`}
-        </div>
+    const chatData = [...room.chat].reverse().map((entry, i) => (
+      <div key={i} className='room-full__chat-entry-wrapper'>
+        <div className='room-full__chat-entry-user'>{entry.user}</div>
         <div className='room-full__chat-entry-message'>
           {formatUrls(entry.message)}
         </div>
@@ -73,8 +71,8 @@ const Room = ({ room, leaveRoom, user, socket }: RoomProps) => {
       <h2 className='room-full__room-title'>{room.name}</h2>
       <div className='room-full'>
 
-        <div className='room-full__space'>
-          <div className='room-full__chat-window'>
+        <div className='room-full__space chat-no-anchor'>
+          <div className='room-full__chat-window chat-reverse'>
             {populateChat()}
           </div>
           

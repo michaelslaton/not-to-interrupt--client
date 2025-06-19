@@ -6,3 +6,9 @@
   width: 90%;
   margin: 0 auto;
 }
+
+.rooms-display__room-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
