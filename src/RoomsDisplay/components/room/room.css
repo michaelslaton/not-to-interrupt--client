@@ -1,14 +1,88 @@
 .room-full__wrapper {
-  position: relative;
   width: 100%;
-  padding: 0 1rem .5rem;
-  background-color: var(--room-bg);
-  border-radius: 10px;
 }
 
 .room-full {
+  position: relative;
+  width: 100%;
   display: flex;
   gap: .5rem;
+  display: grid;
+  grid-template-columns: 1fr 45%;
+}
+
+.room-full__space {
+  background-color: var(--room-bg);
+  padding: 1rem .3rem;
+  border-radius: 10px;
+  width: 100%;
+}
+.room-full__space.controllers {
+  display: flex;
+  flex-wrap: wrap; 
+  gap: .5rem;
+}
+
+.room-full__chat-window {
+  width: 100%;
+  background-color: var(--controller-bg);
+  border: 2px solid var(--controller-digi-bg);
+  border-radius: 4px;
+  padding: .5rem;
+  height: 20rem;
+  overflow: auto;
+  text-wrap: wrap;
+}
+.room-full__chat-input-wrapper {
+  display: flex;
+  width: 100%;
+}
+.room-full__chat-send,
+.room-full__chat-input {
+  height: 35px;
+  font-size: 1rem;
+  border: 1px solid var(--button-border);
+  outline: inherit;
+  margin-top: .5rem;
+}
+.room-full__chat-send {
+  border-radius: 0 6px 6px 0;
+  cursor: pointer;
+  background-color: var(--button-bg);
+  border-left: 0;
+  border-color: var(--button-border);
+  color: var(--button-font);
+  padding: 0 1rem;
+}
+.room-full__chat-input {
+  border-right: none;
+  border-radius: 6px 0 0 6px;
+  width: 100%;
+  resize: none;
+  padding-top: 6px;
+}
+.room-full__chat-entry-wrapper {
+  background-color: rgb(40, 86, 112);
+  padding: .5rem .2rem;
+  border-radius: 5px;
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  gap: .5rem;
+  margin-bottom: .3rem;
+}
+.room-full__chat-entry-user {
+  background-color: rgb(0, 218, 116);
+  padding: .1rem .5rem;
+  border-radius: 3px;
+  text-transform: capitalize;
+  font-size: 1.2em;
+  display: inline;
+  height: fit-content;
+}
+.room-full__chat-entry-message {
+  display: inline;
+  line-height: 1.2;
+  margin-top: 4px;
 }
 
 .room-full__room-title {
@@ -17,4 +91,6 @@
 
 .leave-room-wrapper {
   text-align: right;
+  display: block;
+  flex-basis: 100%;
 }

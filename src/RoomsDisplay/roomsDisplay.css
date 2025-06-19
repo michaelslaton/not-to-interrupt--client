@@ -3,11 +3,6 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: 80%;
+  width: 90%;
   margin: 0 auto;
-}
-
-.rooms-display__room-list {
-  display: flex;
-  gap: 1rem;
 }

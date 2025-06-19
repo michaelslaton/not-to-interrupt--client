@@ -1,15 +1,16 @@
 .controller {
   width: 15rem;
   border: 2px solid var(--controller-digi-bg);
-  border-radius: 10px;
+  border-radius: 4px;
   background-color: var(--controller-bg);
   padding: .5rem;
+  height: fit-content;
 }
 .controller.mini {
   width: 15rem;
   padding: .5rem;
   text-align: center;
-  border-radius: 10px;
+  border-radius: 4px;
 }
 
 .controller__title {
@@ -71,39 +72,4 @@
 
 .controller__small-window-button.mini {
   display: none;
-}
-
-.controller__comment-input {
-  width: 100%;
-  border-radius: 3px;
-  outline: 0;
-  border: 2px solid var(--controller-digi-border);
-  height: 5rem;
-  color: var(--controller-comment-font);
-  background-color: var(--controller-digi-bg);
-  text-wrap: wrap;
-  resize: none;
-  overflow: hidden;
-  display: block;
-}
-.controller__comment-input.match {
-  border-color: var(--controller-comment-green);
-}
-.controller__comment-input.un-match {
-  border-color: var(--controller-comment-red);
-}
-.controller__comment.mini {
-  display: none;
-}
-
-.controller__comment-submit {
-  margin-top: .3rem;
-  outline: none;
-  border: 0 solid var(--button-border);
-  background-color: var(--button-bg);
-  color: var(--button-font);
-  padding: .1rem 1rem;
-  border-radius: 4px;
-  font-size: 1.05rem;
-  text-transform: uppercase;
 }

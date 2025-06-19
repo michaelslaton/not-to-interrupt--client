@@ -23,6 +23,7 @@
 .room-small__users {
   display: flex;
   gap: .5rem;
+  flex-wrap: wrap;
 }
 
 .room-small__user-small {

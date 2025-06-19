@@ -140,6 +140,7 @@ const RoomsDisplay = () => {
       name: name,
       hostId: appState.user.id,
       users: [{...appState.user, socketId: socket.id!}],
+      chat: []
     };
 
     socket.emit('createRoom', newRoom);
@@ -157,7 +158,6 @@ const RoomsDisplay = () => {
   const populateRoomList = (): JSX.Element => {
     if (!appState.user) return <></>;
     if (!roomList.length) return <p>There are no active rooms.</p>;
-
     return (
       <div className='rooms-display__room-list'>
         {roomList.map((room, i) => (
@@ -174,30 +174,32 @@ const RoomsDisplay = () => {
       {appState.roomData ? (
           <AppStateContext.Provider value={{appState, setAppState}}>
             <div className='rooms-display'>
-              <Room room={appState.roomData} leaveRoom={leaveRoom} user={appState.user!} />
+              <Room room={appState.roomData} leaveRoom={leaveRoom} user={appState.user!} socket={socket}/>
             </div>
           </AppStateContext.Provider>
       ) : (
         <div className='rooms-display'>
-          {populateRoomList()}
+          <div className='central-space'>
+            {populateRoomList()}
 
-          {!appState.user && (
-            <FormInput
-              name={formState.unsetUserName}
-              handleChange={handleChange}
-              handleSubmit={handleCreateUser}
-              type='User'
-            />
-          )}
+            {!appState.user && (
+              <FormInput
+                name={formState.unsetUserName}
+                handleChange={handleChange}
+                handleSubmit={handleCreateUser}
+                type='User'
+              />
+            )}
 
-          {appState.user && !roomList.some(room => room.hostId === appState.user!.id) && (
-            <FormInput
-              name={formState.createName}
-              handleChange={handleChange}
-              handleSubmit={handleCreateRoom}
-              type='Room'
-            />
-          )}
+            {appState.user && !roomList.some(room => room.hostId === appState.user!.id) && (
+              <FormInput
+                name={formState.createName}
+                handleChange={handleChange}
+                handleSubmit={handleCreateRoom}
+                type='Room'
+              />
+            )}
+          </div>
 
           {appState.user && roomList.some(room => room.hostId === appState.user!.id) && (
             <h2>You already have a room!</h2>
@@ -209,5 +211,3 @@ const RoomsDisplay = () => {
 };
 
 export default RoomsDisplay;
-
-// It's been a long day, I just wanna light up the little green light... forgive me coding overlords!
