@@ -17,7 +17,12 @@ const Room = ({ room, leaveRoom, user, socket }: RoomProps) => {
    const [chatMessage, setChatMessage] = useState<string>('');
 
    const sendChat = () => {
-    const data = {roomId: room.roomId, user: user.name, message: chatMessage};
+    const data = {
+      roomId: room.roomId,
+      user: user.name,
+      message: chatMessage
+    };
+    console.log(data)
     setChatMessage('');
     socket.emit('chat', data);
    };
