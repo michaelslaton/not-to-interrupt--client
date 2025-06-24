@@ -22,7 +22,6 @@ const Room = ({ room, leaveRoom, user, socket }: RoomProps) => {
       user: user.name,
       message: chatMessage
     };
-    console.log(data)
     setChatMessage('');
     socket.emit('chat', data);
    };
