@@ -109,10 +109,13 @@ const RoomsDisplay = () => {
 
   const handleCreateUser = (e: Event): void => {
     e.preventDefault();
+    if(!socket.id) return console.error('No open socket');
+    
     if (formState.unsetUserName.trim().length < 1) return;
     const newUser: UserType = {
       id: uuid(),
       name: formState.unsetUserName.trim(),
+      socketId: socket.id,
       controller: {
         afk: false,
         handUp: false,
@@ -139,7 +142,7 @@ const RoomsDisplay = () => {
       roomId: uuid(),
       name: name,
       hostId: appState.user.id,
-      users: [{...appState.user, socketId: socket.id!}],
+      users: [{...appState.user}],
       chat: []
     };
 
