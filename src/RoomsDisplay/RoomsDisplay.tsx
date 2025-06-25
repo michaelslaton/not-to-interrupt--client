@@ -65,6 +65,18 @@ const RoomsDisplay = () => {
 
     socket.on('roomData', handleRoomData);
     socket.on('getRoomList', handleRoomList);
+    socket.on('receiveMic', () => {
+      setAppState(prev => ({
+        ...prev,
+        user: {
+          ...prev.user!,
+          controller: {
+            ...prev.user!.controller!,
+            hasMic: true,
+          },
+        },
+      }));
+    });
     socket.on('pingCheck', ()=> socket.emit('pongCheck'));
 
     return () => {
@@ -119,6 +131,7 @@ const RoomsDisplay = () => {
       controller: {
         afk: false,
         handUp: false,
+        hasMic: false,
         comment: '',
       },
     };
@@ -142,11 +155,18 @@ const RoomsDisplay = () => {
       roomId: uuid(),
       name: name,
       hostId: appState.user.id,
-      users: [{...appState.user}],
+      users: [{...appState.user, controller: {...appState.user.controller, hasMic: true}}],
       chat: []
     };
 
     socket.emit('createRoom', newRoom);
+    setAppState((prev) => ({
+      ...prev,
+      user: {
+        ...prev.user!,
+        controller: { ...prev.user!.controller!, hasMic: true },
+      },
+    }));
     setFormState(prev => ({ ...prev, createName: '' }));
   };
 
@@ -207,6 +227,8 @@ const RoomsDisplay = () => {
           {appState.user && roomList.some(room => room.hostId === appState.user!.id) && (
             <h2>You already have a room!</h2>
           )}
+          
+
         </div>
       )}
     </>

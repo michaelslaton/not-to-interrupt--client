@@ -97,10 +97,10 @@ const Room = ({ room, leaveRoom, user, socket }: RoomProps) => {
         </div>
 
         <div className='room-full__space controllers'>
-          <UserController user={user}/>
+          <UserController user={user} socket={socket}/>
           {room.users.map((roomUser, i) => {
             if (roomUser.id !== user.id)
-              return <UserController key={i} user={roomUser} />;
+              return <UserController key={i} user={roomUser} socket={socket}/>;
           })}
         </div>
       </div>
