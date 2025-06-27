@@ -36,6 +36,7 @@ const UserController = ({ user, socket }: UserControllerProps) => {
  };
 
   const handleHandUp = (handUp: boolean): void => {
+    if(controller.hasMic) return;
     setAppState((prev)=> ({
       ...prev,
       user: {
@@ -68,8 +69,11 @@ const UserController = ({ user, socket }: UserControllerProps) => {
   return (
     <div className={`controller ${miniCheck() && 'mini'}`}>
 
-      <div className={`controller__title ${miniCheck() && 'mini'}`}>
-        {user.name}
+      <div className='controller__header'>
+        <div className={`controller__title ${miniCheck() && 'mini'}`}>
+          {user.name}
+        </div>
+        <div className={`controller__mic-light ${controller.hasMic && 'has'}`}>O</div>
       </div>
 
       <div className='controller__controls-wrapper'>
@@ -91,16 +95,21 @@ const UserController = ({ user, socket }: UserControllerProps) => {
       { miniCheck() &&
         <>
           { !controller.hasMic &&
-            appState.user!.controller.hasMic &&
+            appState.user!.controller.hasMic ?
             <button
               className='controller__pass-mic'
               onClick={() => passMic()}
             >
-              Pass Mic
+              Pass the Mic
             </button>
-          }
-          { controller.hasMic &&
-            `I got it!`
+            :
+            <button
+              className='controller__pass-mic disabled'
+              onClick={() => passMic()}
+              disabled
+            >
+              Pass the Mic
+            </button>
           }
         </>
       }

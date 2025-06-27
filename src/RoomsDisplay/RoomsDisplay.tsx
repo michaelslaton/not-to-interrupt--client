@@ -73,6 +73,7 @@ const RoomsDisplay = () => {
           controller: {
             ...prev.user!.controller!,
             hasMic: true,
+            handUp: false,
           },
         },
       }));
