@@ -19,8 +19,9 @@
 }
 .room-full__space.controllers {
   display: flex;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
   gap: .5rem;
+  align-content: flex-start;
 }
 
 .room-full__chat-window {
