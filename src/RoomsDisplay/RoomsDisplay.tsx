@@ -12,7 +12,7 @@ const socket: Socket = io(import.meta.env.VITE_SOCKET_URL || 'localhost:3000');
 
 (window as any).socket = socket;
 
-type FormStateType = {
+export type FormStateType = {
   createName: string;
   unsetUserName: string;
 };
@@ -110,20 +110,9 @@ const RoomsDisplay = () => {
   }, [appState.user, appState.roomData]);
 
   // ----- SOCKET COMMANDS ----- >
-  const enterRoom = (roomId: string): void => {
-    socket.emit('enterRoom', { roomId, user: {...appState.user, socketId: socket.id} });
-  };
-
-  const leaveRoom = (roomId: string, userId: string): void => {
-    setAppState(prev => ({ ...prev, roomData: null }));
-    socket.emit('leaveRoom', { roomId, userId });
-    socket.emit('getRoomList');
-  };
-
   const handleCreateUser = (e: Event): void => {
     e.preventDefault();
     if(!socket.id) return console.error('No open socket');
-    
     if (formState.unsetUserName.trim().length < 1) return;
     const newUser: UserType = {
       id: uuid(),
@@ -171,14 +160,6 @@ const RoomsDisplay = () => {
     setFormState(prev => ({ ...prev, createName: '' }));
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, type: string): void => {
-    if (type === 'Room') {
-      setFormState(prev => ({ ...prev, createName: e.target.value }));
-    } else {
-      setFormState(prev => ({ ...prev, unsetUserName: e.target.value }));
-    }
-  };
-
   const populateRoomList = (): JSX.Element => {
     if (!appState.user) return <></>;
     if (!roomList.length) return <p>There are no active rooms.</p>;
@@ -186,7 +167,10 @@ const RoomsDisplay = () => {
       <div className='rooms-display__room-list'>
         {roomList.map((room, i) => (
           <span key={i}>
-            <RoomSmall room={room} onClick={enterRoom} />
+            <RoomSmall
+              room={room}
+              socket={socket}
+            />
           </span>
         ))}
       </div>
@@ -194,13 +178,11 @@ const RoomsDisplay = () => {
   };
 
   return (
-    <>
+    <AppStateContext.Provider value={{appState, setAppState}}>
       {appState.roomData ? (
-          <AppStateContext.Provider value={{appState, setAppState}}>
             <div className='rooms-display'>
-              <Room room={appState.roomData} leaveRoom={leaveRoom} user={appState.user!} socket={socket}/>
+              <Room room={appState.roomData} user={appState.user!} socket={socket}/>
             </div>
-          </AppStateContext.Provider>
       ) : (
         <div className='rooms-display'>
           <div className='central-space'>
@@ -208,19 +190,19 @@ const RoomsDisplay = () => {
 
             {!appState.user && (
               <FormInput
-                name={formState.unsetUserName}
-                handleChange={handleChange}
-                handleSubmit={handleCreateUser}
-                type='User'
+              name={formState.unsetUserName}
+              handleSubmit={handleCreateUser}
+              setFormState={setFormState}
+              type='User'
               />
             )}
 
             {appState.user && !roomList.some(room => room.hostId === appState.user!.id) && (
               <FormInput
-                name={formState.createName}
-                handleChange={handleChange}
-                handleSubmit={handleCreateRoom}
-                type='Room'
+              name={formState.createName}
+              handleSubmit={handleCreateRoom}
+              setFormState={setFormState}
+              type='Room'
               />
             )}
           </div>
@@ -232,7 +214,7 @@ const RoomsDisplay = () => {
 
         </div>
       )}
-    </>
+    </AppStateContext.Provider>
   );
 };
 

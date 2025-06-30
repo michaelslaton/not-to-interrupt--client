@@ -1,17 +1,24 @@
+import type { Socket } from "socket.io-client";
 import type { RoomDataType } from "../../../types/RoomData.type";
 import './roomSmall.css';
+import { useAppStateContext } from "../../RoomsDisplay";
 
 type RoomProps = {
   room: RoomDataType;
-  onClick: Function;
+  socket: Socket;
 }
 
 
-const RoomSmall = ({ room, onClick }: RoomProps ) => {
+const RoomSmall = ({ room, socket }: RoomProps ) => {
+  const {appState} = useAppStateContext();
+
+  const enterRoom = (roomId: string): void => {
+    socket.emit('enterRoom', { roomId, user: {...appState.user, socketId: socket.id} });
+  };
 
   return (
     <div
-      onClick={()=> onClick(room.roomId)}
+      onClick={()=> enterRoom(room.roomId)}
       className='room-small'
     >
       <div className='room-small__title'>

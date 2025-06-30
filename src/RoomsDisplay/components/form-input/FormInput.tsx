@@ -1,13 +1,22 @@
+import type { FormStateType } from '../../RoomsDisplay';
 import './formInput.css';
 
 type FormInputProps = {
   name: string;
-  handleChange: Function;
   handleSubmit: Function;
+  setFormState: React.Dispatch<React.SetStateAction<FormStateType>>;
   type: string;
-}
+};
 
-const FormInput = ({ name, handleChange, handleSubmit, type }: FormInputProps) => {
+const FormInput = ({ name, handleSubmit, type, setFormState }: FormInputProps) => {
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, type: string): void => {
+    if (type === 'Room') {
+      setFormState(prev => ({ ...prev, createName: e.target.value }));
+    } else {
+      setFormState(prev => ({ ...prev, unsetUserName: e.target.value }));
+    }
+  };
 
   return (
     <div className='form-input__create-container'>
@@ -21,7 +30,6 @@ const FormInput = ({ name, handleChange, handleSubmit, type }: FormInputProps) =
         />
         <button
           className='form-input__create'
-          // onClick={()=> handleSubmit(type)}
           type='submit'
         >
           Create {type}
