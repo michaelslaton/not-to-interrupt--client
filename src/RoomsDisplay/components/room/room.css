@@ -27,6 +27,7 @@
 .room-full__room-title {
   text-transform: capitalize;
   margin: 0;
+  margin-bottom: .2rem;
 }
 
 .leave-room-wrapper {
