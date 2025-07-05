@@ -9,12 +9,13 @@ import type { UserType } from '../types/User.type';
 import './roomsDisplay.css';
 
 const socket: Socket = io(import.meta.env.VITE_SOCKET_URL || 'localhost:3000');
+const regExOnlyLettersAndSpace: RegExp = /^[A-Za-z ]+$/;
 
 (window as any).socket = socket;
 
 export type FormStateType = {
-  createName: string;
-  unsetUserName: string;
+  newRoomName: string;
+  newUserName: string;
 };
 
 type AppStateType = {
@@ -36,8 +37,8 @@ export const useAppStateContext = () => {
 const RoomsDisplay = () => {
   const [roomList, setRoomList] = useState<RoomDataType[]>([]);
   const [formState, setFormState] = useState<FormStateType>({
-    createName: '',
-    unsetUserName: ''
+    newRoomName: '',
+    newUserName: ''
   });
   const [appState, setAppState] = useState<AppStateType>({
     user: null,
@@ -112,11 +113,16 @@ const RoomsDisplay = () => {
   // ----- SOCKET COMMANDS ----- >
   const handleCreateUser = (e: Event): void => {
     e.preventDefault();
+    const enteredName: string = formState.newUserName.trim();
     if(!socket.id) return console.error('No open socket');
-    if (formState.unsetUserName.trim().length < 1) return;
+    if(enteredName.length < 3) return console.error(`Entered User name is too short. (3 characters minimum)`);
+    if(enteredName.length > 8) return console.error(`Entered User name is too long. (8 characters maximum)`);
+    if(!regExOnlyLettersAndSpace.test(enteredName)) return console.error('Entered User name containes symbols or numbers.');
+    if((enteredName.match(/ /g) || []).length > 1) return console.error('Entered User name containes too many spaces.');
+
     const newUser: UserType = {
       id: uuid(),
-      name: formState.unsetUserName.trim(),
+      name: enteredName,
       socketId: socket.id,
       controller: {
         afk: false,
@@ -129,21 +135,25 @@ const RoomsDisplay = () => {
       ...prev,
       user: newUser
     }));
-    setFormState(prev => ({ ...prev, unsetUserName: '' }));
+    setFormState(prev => ({ ...prev, newUserName: '' }));
     socket.emit('getRoomList');
   };
 
   const handleCreateRoom = (e: Event): void => {
     e.preventDefault();
-    const name = formState.createName.trim();
-    if (!name.length) return;
+    const enteredName: string = formState.newRoomName.trim();
+    if (!enteredName.length) return;
     if (!appState.user) return;
-    if (roomList.some(room => room.name.toLowerCase() === name.toLowerCase())) return;
+    if (roomList.some(room => room.name.toLowerCase() === enteredName.toLowerCase())) return;
     if (roomList.some(room => room.users.some(user => user.id === appState.user!.id))) return;
+    if(enteredName.length < 3) return console.error(`Entered Room name is too short. (3 characters minimum)`);
+    if(enteredName.length > 15) return console.error(`Entered Room name is too long. (15 characters maximum)`);
+    if(!regExOnlyLettersAndSpace.test(enteredName)) return console.error('Entered Room name containes symbols or numbers.');
+    if((enteredName.match(/ /g) || []).length > 1) return console.error('Entered Room name containes too many spaces.');
 
     const newRoom: RoomDataType = {
       roomId: uuid(),
-      name: name,
+      name: enteredName,
       hostId: appState.user.id,
       users: [{...appState.user, controller: {...appState.user.controller, hasMic: true}}],
       chat: []
@@ -157,7 +167,7 @@ const RoomsDisplay = () => {
         controller: { ...prev.user!.controller!, hasMic: true },
       },
     }));
-    setFormState(prev => ({ ...prev, createName: '' }));
+    setFormState(prev => ({ ...prev, newRoomName: '' }));
   };
 
   const populateRoomList = (): JSX.Element => {
@@ -190,19 +200,21 @@ const RoomsDisplay = () => {
 
             {!appState.user && (
               <FormInput
-              name={formState.unsetUserName}
+              name={formState.newUserName}
               handleSubmit={handleCreateUser}
               setFormState={setFormState}
               type='User'
+              maxLength={8}
               />
             )}
 
             {appState.user && !roomList.some(room => room.hostId === appState.user!.id) && (
               <FormInput
-              name={formState.createName}
+              name={formState.newRoomName}
               handleSubmit={handleCreateRoom}
               setFormState={setFormState}
               type='Room'
+              maxLength={15}
               />
             )}
           </div>

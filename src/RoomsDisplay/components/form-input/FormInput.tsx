@@ -6,15 +6,16 @@ type FormInputProps = {
   handleSubmit: Function;
   setFormState: React.Dispatch<React.SetStateAction<FormStateType>>;
   type: string;
+  maxLength: number;
 };
 
-const FormInput = ({ name, handleSubmit, type, setFormState }: FormInputProps) => {
+const FormInput = ({ name, handleSubmit, type, setFormState, maxLength }: FormInputProps) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, type: string): void => {
     if (type === 'Room') {
-      setFormState(prev => ({ ...prev, createName: e.target.value }));
+      setFormState(prev => ({ ...prev, newRoomName: e.target.value }));
     } else {
-      setFormState(prev => ({ ...prev, unsetUserName: e.target.value }));
+      setFormState(prev => ({ ...prev, newUserName: e.target.value }));
     }
   };
 
@@ -27,6 +28,7 @@ const FormInput = ({ name, handleSubmit, type, setFormState }: FormInputProps) =
           placeholder={`${type} Name`}
           value={name}
           onChange={(e)=> handleChange(e, type)}
+          maxLength={maxLength}
         />
         <button
           className='form-input__create'
