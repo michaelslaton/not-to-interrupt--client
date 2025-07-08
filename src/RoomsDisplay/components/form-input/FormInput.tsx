@@ -28,6 +28,7 @@ const FormInput = ({ name, handleSubmit, type, setFormState, maxLength }: FormIn
           placeholder={`${type} Name`}
           value={name}
           onChange={(e)=> handleChange(e, type)}
+          data-testid='formInput-input'
           maxLength={maxLength}
         />
         <button
