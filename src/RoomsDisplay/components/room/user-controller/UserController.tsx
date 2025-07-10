@@ -1,16 +1,16 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHandPaper } from '@fortawesome/fontawesome-free-solid';
-import type { UserType } from '../../../../types/User.type';
 import { useAppStateContext } from '../../../RoomsDisplay';
-import './userController.css';
-import type { IconProp } from '@fortawesome/fontawesome-svg-core';
 import Toggle from '../../toggle/Toggle';
+import type { IconProp } from '@fortawesome/fontawesome-svg-core';
 import type { Socket } from 'socket.io-client';
+import type { UserType } from '../../../../types/User.type';
+import './userController.css';
 
 type UserControllerProps = {
   user: UserType;
   socket?: Socket;
-}
+};
 
 const UserController = ({ user, socket }: UserControllerProps) => {
  const { appState, setAppState } = useAppStateContext();
@@ -22,6 +22,7 @@ const UserController = ({ user, socket }: UserControllerProps) => {
  };
 
  const handleAfk = (afk: boolean): void => {
+  if(appState.user?.controller.hasMic) return;
   setAppState((prev)=> ({
     ...prev,
     user: {
@@ -52,6 +53,7 @@ const UserController = ({ user, socket }: UserControllerProps) => {
 
   const passMic = (): void => {
     if(!appState.user?.controller.hasMic) return;
+    if(user?.controller.afk) return;
     if(!socket) return;
     setAppState(prev => ({
       ...prev,
@@ -73,7 +75,7 @@ const UserController = ({ user, socket }: UserControllerProps) => {
         <div className={`controller__title ${miniCheck() && 'mini'}`}>
           {user.name}
         </div>
-        <div className={`controller__mic-light ${controller.hasMic && 'has'}`}>O</div>
+        <div className={`controller__mic-light ${controller.hasMic && 'has'}`}>🎙️</div>
       </div>
 
       <div className='controller__controls-wrapper'>

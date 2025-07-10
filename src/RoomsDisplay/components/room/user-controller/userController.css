@@ -35,7 +35,7 @@
   background-color: var(--controller-digi-bg);
 }
 
-.controller__mic-light {
+/* .controller__mic-light {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -49,6 +49,19 @@
 .controller__mic-light.has {
   background-color: white;
   border-color: yellow;
+  filter: drop-shadow(0px 0px 10px #b3ff03);
+} */
+
+.controller__mic-light {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 200ms ease-in-out;
+  font-size: 2rem;
+  height: 1.5rem;
+  filter: brightness(.3) saturate(100%);
+}
+.controller__mic-light.has {
   filter: drop-shadow(0px 0px 10px #b3ff03);
 }
 
