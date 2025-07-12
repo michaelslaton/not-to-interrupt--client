@@ -7,6 +7,7 @@ import Room from './components/room/Room';
 import type { RoomDataType } from '../types/RoomData.type';
 import type { UserType } from '../types/User.type';
 import './roomsDisplay.css';
+import ErrorDisplay from './components/error-display/ErrorDisplay';
 
 const socket: Socket = io(import.meta.env.VITE_SOCKET_URL || 'localhost:3000');
 const regExOnlyLettersAndSpace: RegExp = /^[A-Za-z ]+$/;
@@ -21,6 +22,7 @@ export type FormStateType = {
 type AppStateType = {
   user: UserType | null;
   roomData: RoomDataType | null;
+  error: string | null;
 };
 
 export const AppStateContext = createContext<{
@@ -43,6 +45,7 @@ const RoomsDisplay = () => {
   const [appState, setAppState] = useState<AppStateType>({
     user: null,
     roomData: null,
+    error: null,
   });
 
   useEffect(() => {
@@ -63,7 +66,8 @@ const RoomsDisplay = () => {
         }
       }
     };
-
+    
+    socket.on('error', (data)=> setAppState((prev)=> ({...prev, error: data})));
     socket.on('roomData', handleRoomData);
     socket.on('getRoomList', handleRoomList);
     socket.on('receiveMic', () => {
@@ -195,6 +199,7 @@ const RoomsDisplay = () => {
             </div>
       ) : (
         <div className='rooms-display'>
+          <ErrorDisplay/>
           <div className='central-space'>
             {populateRoomList()}
 
