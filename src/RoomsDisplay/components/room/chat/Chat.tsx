@@ -12,6 +12,7 @@ type ChatProps = {
 
 const Chat = (data: ChatProps) => {
   const [chatMessage, setChatMessage] = useState<string>('');
+  const [color, setColor] = useState<string>('green');
   const { socket, room, user } = data;
 
   const sendChat = (e: FormEvent): void => {
@@ -19,7 +20,8 @@ const Chat = (data: ChatProps) => {
     const data = {
       roomId: room.roomId,
       user: user.name,
-      message: chatMessage
+      message: chatMessage,
+      color: color,
     };
     setChatMessage('');
     socket.emit('chat', data);
@@ -55,7 +57,12 @@ const Chat = (data: ChatProps) => {
   const populateChat = (): JSX.Element => {
     const chatData = [...room.chat].reverse().map((entry, i) => (
       <div key={i} className='chat__entry-wrapper'>
-        <div className='chat__entry-user'>{entry.user}</div>
+        <div
+          style={{ backgroundColor: entry.color }}
+          className='chat__entry-user'
+        >
+          {entry.user}
+        </div>
         <div className='chat__entry-message'>
           {formatUrls(entry.message)}
         </div>
@@ -91,6 +98,14 @@ const Chat = (data: ChatProps) => {
         >
           Send
         </button>
+        <input
+          type='color'
+          id='color'
+          name='color'
+          onChange={(e)=> setColor(e.target.value)}
+          className='chat__color-select'
+          defaultValue={`green`}
+        />
       </form>
     </div>
   );
