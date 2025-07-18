@@ -1,11 +1,36 @@
-import { render, screen } from "@testing-library/react";
-import RoomsDisplay from "./RoomsDisplay";
-import userEvent from "@testing-library/user-event";
+import { render, screen, act } from '@testing-library/react';
+import RoomsDisplay from './RoomsDisplay';
+import userEvent from '@testing-library/user-event';
+import { describe, it, beforeEach, vi, expect } from 'vitest';
+import { io as mockIo } from 'socket.io-client';
+
+vi.mock('socket.io-client', () => {
+  const mSocket = {
+    on: vi.fn(),
+    off: vi.fn(),
+    emit: vi.fn(),
+    id: 'mock-socket-id',
+  };
+  return {
+    io: () => mSocket,
+  };
+});
+
+const mockSocket = mockIo() as unknown as {
+  on: ReturnType<typeof vi.fn>;
+  off: ReturnType<typeof vi.fn>;
+  emit: ReturnType<typeof vi.fn>;
+  id: string;
+};
 
 describe('RoomsDisplay', () => {
-  it('App title displays properly.', () => {
-    render(<RoomsDisplay />);
+  beforeEach(() => {
+    vi.clearAllMocks();
   });
+
+  // it('App title displays properly.', () => {
+  //   render(<RoomsDisplay />);
+  // });
 
   it('Renders all elements properly', () => {
     render(<RoomsDisplay />);
@@ -18,18 +43,24 @@ describe('RoomsDisplay', () => {
     expect(inputPlaceHolder).toBeVisible();
   });
 
-  it('Creates a user when input is entered properly', async () => {
-
+  it('Creates a user and advances to room creation prompt when input is valid', async () => {
     const user = userEvent.setup();
     render(<RoomsDisplay />);
-
-    const button = screen.getByRole('button', { name: `Create User` });
     const input = screen.getByTestId('formInput-input');
-    expect(button).toBeVisible();
-    expect(input).toBeVisible();
-
-    input.focus();
-    await user.keyboard('Ren');
+    const button = screen.getByRole('button', { name: 'Create User' });
+    
+    await user.type(input, 'Ren');
     await user.click(button);
+
+    const getRoomListHandlerCall = (mockSocket.on as ReturnType<typeof vi.fn>).mock.calls.find((call) => call[0] === 'getRoomList');
+
+    if(getRoomListHandlerCall){
+      const getRoomListHandler = getRoomListHandlerCall[1];
+      act(() => {
+        getRoomListHandler([]);
+      });
+    };
+
+    expect(screen.getByPlaceholderText('Room Name')).toBeInTheDocument();
   });
 });
