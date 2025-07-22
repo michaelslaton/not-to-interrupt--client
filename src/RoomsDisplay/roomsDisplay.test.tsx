@@ -30,6 +30,8 @@ describe('RoomsDisplay', () => {
 
   // it('App title displays properly.', () => {
   //   render(<RoomsDisplay />);
+
+  //   const title = screen.getByText('No Projects to display.')
   // });
 
   it('Renders all elements properly', () => {
@@ -89,8 +91,8 @@ describe('RoomsDisplay', () => {
 
   it('Does not create a user and advance when entered name is too short.', async () => {
     const user = userEvent.setup();
-    const getRoomListHandlerCall = (mockSocket.on as ReturnType<typeof vi.fn>).mock.calls.find((call) => call[0] === 'getRoomList');
     render(<RoomsDisplay />);
+    const getRoomListHandlerCall = (mockSocket.on as ReturnType<typeof vi.fn>).mock.calls.find((call) => call[0] === 'getRoomList');
     const userInput = screen.getByTestId('formInput-input');
     const button = screen.getByRole('button', { name: 'Create User' });
     
@@ -115,5 +117,61 @@ describe('RoomsDisplay', () => {
     roomInput = screen.queryByPlaceholderText('Room Name');
     expect(roomInput).not.toBeInTheDocument();
     expect(button).toBeInTheDocument();
+  });
+
+  it('Does not create a user and advance when entered name contains symbols or numbers.', async () => {
+    const user = userEvent.setup();
+    render(<RoomsDisplay />);
+    const getRoomListHandlerCall = (mockSocket.on as ReturnType<typeof vi.fn>).mock.calls.find((call) => call[0] === 'getRoomList');
+    const userInput = screen.getByTestId('formInput-input');
+    const button = screen.getByRole('button', { name: 'Create User' });
+    
+    await user.type(userInput, 'Ren!');
+    await user.click(button);
+    
+    if(getRoomListHandlerCall){
+      const getRoomListHandler = getRoomListHandlerCall[1];
+      act(() => {
+        getRoomListHandler([]);
+      });
+    };
+
+    let roomInput = screen.queryByPlaceholderText('Room Name');
+    expect(roomInput).not.toBeInTheDocument();
+    expect(button).toBeInTheDocument();
+
+    await user.clear(userInput)
+    await user.type(userInput, 'Ren1');
+    await user.click(button);
+    
+    roomInput = screen.queryByPlaceholderText('Room Name');
+    expect(roomInput).not.toBeInTheDocument();
+    expect(button).toBeInTheDocument();
+  });
+
+  it('Does not create a user and advance when entered name contains more than one space.', async () => {
+    const user = userEvent.setup();
+    render(<RoomsDisplay />);
+    const userInput = screen.getByTestId('formInput-input');
+    const button = screen.getByRole('button', { name: 'Create User' });
+
+    await user.type(userInput, 're r e');
+    await user.click(button);
+
+    const getRoomListHandlerCall = (mockSocket.on as ReturnType<typeof vi.fn>).mock.calls.find(
+      (call) => call[0] === 'getRoomList'
+    );
+
+    if (getRoomListHandlerCall) {
+      const getRoomListHandler = getRoomListHandlerCall[1];
+      act(() => {
+        getRoomListHandler([]);
+      });
+    }
+
+    const roomInput = screen.queryByPlaceholderText('Room Name');
+    expect(roomInput).not.toBeInTheDocument();
+    expect(button).toBeInTheDocument();
+    expect(mockSocket.emit).not.toHaveBeenCalledWith('getRoomList');
   });
 });
