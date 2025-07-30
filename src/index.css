@@ -7,85 +7,125 @@
 }
 
 :root {
-    /* Colors -----------------> */
+  /* Colors -----------------> */
 
-    --app-title: #ffffff;
-    --background: #184E77;
-    --font-color: white;
+  --app-title: #ffffff;
+  --background: #184E77;
+  --font-color: white;
 
-    --button-bg: #1C2321;
-    --button-border: #000000;
-    --button-font: #D9ED92;
-    --button-border-hover: #D9ED92;
+  --button-bg: #1C2321;
+  --button-border: #000000;
+  --button-font: #D9ED92;
+  --button-border-hover: #D9ED92;
 
-    --room-bg: #52B69A;
-    --room-s-title-bg: #1A759F;
-    --room-s-title-font: #ffffff;
-    --room-s-user-bg: #168AAD;
-    --room-s-user-font: #D9ED92;
+  --room-bg: #52B69A;
+  --room-s-title-bg: #1A759F;
+  --room-s-title-font: #ffffff;
+  --room-s-user-bg: #168AAD;
+  --room-s-user-font: #D9ED92;
 
-    --toggle-bg: #1C2321;
-    --toggle-switch: #1A759F;
-    --toggle-on-bg: #1C2321;
-    --toggle-on-switch: #c8ff00;
+  --toggle-bg: #1C2321;
+  --toggle-switch: #1A759F;
+  --toggle-on-bg: #1C2321;
+  --toggle-on-switch: #c8ff00;
 
-    --controller-bg: var(--room-s-user-bg);
+  --controller-bg: var(--room-s-user-bg);
 
-    --controller-digi-bg: #1C2321;
-    --controller-digi-border: #000000;
-    --controller-digi-off: #000000;
-    --controller-digi-font: #c8ff00;
-    --controller-digi-afk: #ff0000;
-    --controller-digi-hand: #c8ff00;
+  --controller-digi-bg: #1C2321;
+  --controller-digi-border: #000000;
+  --controller-digi-off: #000000;
+  --controller-digi-font: #c8ff00;
+  --controller-digi-afk: #ff0000;
+  --controller-digi-hand: #c8ff00;
 
-    --controller-comment-font: #ffffff;
-    --controller-comment-green: transparent;
-    --controller-comment-red: #ff0000;
+  --controller-comment-font: #ffffff;
+  --controller-comment-green: transparent;
+  --controller-comment-red: #ff0000;
   /* < --- > */
-  }
-  
-  html, body {
-    margin: 0;
-    padding: 0;
-  }
-  
-  body {
-    background-color: var(--background);
-    color: var(--font-color);
-    font-family: 'sf-regular', Arial, sans-serif;
-  }
-  
-  * {
-    box-sizing: border-box;
-  }
-  
-  h1, h2, h3, h4, h5, h6 {
-    text-wrap: balance;
-  }
-  
-  p, li, figcaption {
-    text-wrap: pretty;
-    max-width: 65ch;
-  }
-  
-  .italic {
-    font-style: italic;
-  }
-  
-  abbr {
-    border-bottom: none !important;
-    text-decoration: none !important;
-  }
-  
-  img {
-    border-style: none;
-  }
+}
 
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--font-color);
+  font-family: 'sf-regular', Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  text-wrap: balance;
+}
+
+p, li, figcaption {
+  text-wrap: pretty;
+  max-width: 65ch;
+}
+
+.italic {
+  font-style: italic;
+}
+
+abbr {
+  border-bottom: none !important;
+  text-decoration: none !important;
+}
+
+img {
+  border-style: none;
+}
+
+.central-space {
+  width: 100%;
+  height: 50vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 2rem;
+}
+
+@media (min-width: 375px){
   .central-space {
-    width: 100%;
-    height: 50vh;
-    display: flex;
     justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    margin-top: 2rem;
   }
+}
+
+@media (min-width: 390px){
+}
+
+@media (min-width: 414px){
+}
+
+@media (min-width: 768px){
+}
+
+@media (min-width: 810px){
+}
+
+@media (min-width: 1280px){
+}
+
+@media (min-width: 1366px){
+}
+
+@media (min-width: 1440px){
+}
+
+@media (min-width: 1536px){
+}
+
+@media (min-width: 1600px){
+}
+
+@media (min-width: 1920px){
+}
+
+@media (min-width: 2560px){
+}

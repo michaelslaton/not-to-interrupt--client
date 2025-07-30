@@ -1,6 +1,12 @@
 .form-input__create-container {
+  /* display: flex; */
+  width: 100%;
+}
+
+.form-input__create-container > form {
   display: flex;
-  width: fit-content;
+  flex-direction: column;
+  width: 100%;
 }
 
 .form-input__create,
@@ -12,7 +18,7 @@
   margin-top: 1rem;
  }
 .form-input__create {
-  border-radius: 0 6px 6px 0;
+  border-radius: 6px;
   cursor: pointer;
   background-color: var(--button-bg);
   border-left: 0;
@@ -21,5 +27,54 @@
 }
 .form-input__create-input {
   border-right: none;
-  border-radius: 6px 0 0 6px;
+  border-radius: 6px;
+}
+
+@media (min-width: 375px){
+  .form-input__create-container {
+    width: fit-content;
+  }
+  .form-input__create-container > form {
+    display: block;
+  }
+
+  .form-input__create {
+    border-radius: 0 6px 6px 0;
+  }
+  .form-input__create-input {
+    border-radius: 6px 0 0 6px;
+  }
+}
+
+@media (min-width: 390px){
+}
+
+@media (min-width: 414px){
+}
+
+@media (min-width: 768px){
+}
+
+@media (min-width: 810px){
+}
+
+@media (min-width: 1280px){
+}
+
+@media (min-width: 1366px){
+}
+
+@media (min-width: 1440px){
+}
+
+@media (min-width: 1536px){
+}
+
+@media (min-width: 1600px){
+}
+
+@media (min-width: 1920px){
+}
+
+@media (min-width: 2560px){
 }

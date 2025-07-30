@@ -7,7 +7,7 @@
 .header > h1 {
   margin: 0;
   text-transform: uppercase;
-  font-size: 2.5rem;
+  font-size: 2rem;
   color: var(--app-title);
 }
 
@@ -24,4 +24,43 @@
 }
 .button:hover {
   border-color: var(--button-border-hover);
+}
+
+@media (min-width: 375px){
+  .header > h1 {
+    font-size: 2.5rem;
+  }
+}
+
+@media (min-width: 390px){
+}
+
+@media (min-width: 414px){
+}
+
+@media (min-width: 768px){
+}
+
+@media (min-width: 810px){
+}
+
+@media (min-width: 1280px){
+}
+
+@media (min-width: 1366px){
+}
+
+@media (min-width: 1440px){
+}
+
+@media (min-width: 1536px){
+}
+
+@media (min-width: 1600px){
+}
+
+@media (min-width: 1920px){
+}
+
+@media (min-width: 2560px){
 }
