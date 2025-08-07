@@ -93,7 +93,7 @@ img {
 
 @media (min-width: 375px){
   .central-space {
-    flex-direction: auto;
+    flex-direction: column;
     justify-content: center;
     margin-top: 2rem;
     height: 50vh;
