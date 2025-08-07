@@ -1,3 +1,7 @@
+.room-small__wrapper {
+  width: 100% !important;
+}
+
 .room-small {
   aspect-ratio: 1.5/1;
   width: 15rem;
@@ -5,6 +9,7 @@
   padding: .5rem;
   background-color: var(--room-bg);
   cursor: pointer;
+  width: 100%;
 }
 
 .room-small__title {
@@ -32,4 +37,40 @@
   padding: .5rem 1.5rem;
   border-radius: 3px;
   color: var(--room-s-user-font);
+}
+
+@media (min-width: 375px){
+}
+
+@media (min-width: 390px){
+}
+
+@media (min-width: 414px){
+}
+
+@media (min-width: 768px){
+}
+
+@media (min-width: 810px){
+}
+
+@media (min-width: 1280px){
+}
+
+@media (min-width: 1366px){
+}
+
+@media (min-width: 1440px){
+}
+
+@media (min-width: 1536px){
+}
+
+@media (min-width: 1600px){
+}
+
+@media (min-width: 1920px){
+}
+
+@media (min-width: 2560px){
 }

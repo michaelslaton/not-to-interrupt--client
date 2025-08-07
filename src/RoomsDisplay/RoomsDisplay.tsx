@@ -180,7 +180,7 @@ const RoomsDisplay = () => {
     return (
       <div className='rooms-display__room-list'>
         {roomList.map((room, i) => (
-          <span key={i}>
+          <span className='room-small__wrapper'key={i}>
             <RoomSmall
               room={room}
               socket={socket}
