@@ -3,7 +3,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: 90%;
+  width: 95%;
   margin: 0 auto;
 }
 
@@ -15,6 +15,9 @@
 }
 
 @media (min-width: 375px){
+  .rooms-display {
+    width: 90%;
+  }
 }
 
 @media (min-width: 390px){

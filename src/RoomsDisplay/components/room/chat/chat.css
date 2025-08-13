@@ -4,7 +4,7 @@
   border: 2px solid var(--controller-digi-bg);
   border-radius: 4px;
   padding: .5rem;
-  height: 20rem;
+  height: 12rem;
   overflow: auto;
   text-wrap: wrap;
   display: flex;
@@ -88,4 +88,43 @@
   position: relative;
   bottom: 1px;
   border-radius: 20px;
+}
+
+@media (min-width: 375px){
+  .chat__window {
+    height: 20rem;
+  }
+}
+
+@media (min-width: 390px){
+}
+
+@media (min-width: 414px){
+}
+
+@media (min-width: 768px){
+}
+
+@media (min-width: 810px){
+}
+
+@media (min-width: 1280px){
+}
+
+@media (min-width: 1366px){
+}
+
+@media (min-width: 1440px){
+}
+
+@media (min-width: 1536px){
+}
+
+@media (min-width: 1600px){
+}
+
+@media (min-width: 1920px){
+}
+
+@media (min-width: 2560px){
 }
